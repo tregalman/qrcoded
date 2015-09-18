@@ -27,10 +27,15 @@ func main() {
 // GenerateQRCode generates a code based on the string passed in by the user
 // and writes the QRCode version to a png file.
 func GenerateQRCode(w io.Writer, code string, version Version) error {
-	size := 4*int(version) + 17
+	size := version.PatternSize()
 	img := image.NewNRGBA(image.Rect(0, 0, size, size))
 	return png.Encode(w, img)
 }
 
 // Version is an alias of the int8 type
 type Version int8
+
+// PatternSize determines the size of a particular QRCode Version
+func (v Version) PatternSize() int {
+	return 4*int(v) + 17
+}
